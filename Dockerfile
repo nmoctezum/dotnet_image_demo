@@ -11,10 +11,10 @@ COPY . .
 WORKDIR "/src/."
 RUN dotnet build "TestDotNet.csproj" -c Release -o /app/build
 
-FROM build AS publish
+FROM  mcr.microsoft.com/dotnet/core/aspnet:3.1 AS publish
 RUN dotnet publish "TestDotNet.csproj" -c Release -o /app/publish
 
-FROM base AS final
+FROM  mcr.microsoft.com/dotnet/core/aspnet:3.1 AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "TestDotNet.dll"]
